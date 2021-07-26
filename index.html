@@ -3,59 +3,32 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Paragliding jump points and weather info" />
   <meta name="author" content="Žiga Premrl, Nik Čadež, Marcel Loboda, Nika Škerjanec" />
   <title>ParaWeb</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/paraweb.css" rel="stylesheet" />
-  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- LeafletJS css and js -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
 </head>
 
 <body>
-  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">ParaWeb</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <input class="form-control form-control-dark w-100" id="srchbar" type="text" placeholder="Search" aria-label="Search" onkeyup="searchElements()" />
-  </header>
-
-  <div class="container-fluid">
-    <div class="row">
-      <nav id="sidebarMenu" class="col-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="position-sticky pt-3">
-          <ul class="nav flex-column" id="flightList"></ul>
-        </div>
-      </nav>
-      <main class="col-9 ms-sm-auto col-lg-10 px-md-4">
-        <div id="mapid"></div>
-      </main>
+  <div class="container">
+    <div id="sitelist">
+      <!-- sitelist is filled by the js function fillList in paraweb.js -->
+      <!-- <div class="jumppoint" name="Kovk" onclick="zoomOnPoint(this)" style="">Kovk</div> -->
     </div>
+    <div id="mapcontainer">
+      <div id="mapid"></div>
+    </div>
+    <div id="search">
+      <input type="text" name="filter" id="filter" placeholder="Iščite po vzletiščih" oninput="searchElements(this);">
+    </div>
+    <div id="logo">PARAWEB</div>
   </div>
-  </div>
-
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <!-- Feather icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
   <script src="js/paraweb.js"></script>
 </body>
 

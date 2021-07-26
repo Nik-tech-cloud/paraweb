@@ -1,12 +1,13 @@
+# -*- coding: UTF-8 -*-
 import server.apiUtil as apiUtil
 from flask import Flask
 from flask import request
+import json
 
 app = Flask(__name__)
 
-# returns json of names + coordinates
-
 # hardcoded list of sites, could get list from scraping
+# https://positionstack.com/
 sites = {
     "Gozd": {
         "lon": 46.3395,
@@ -48,7 +49,7 @@ sites = {
         "lat": 14.6395,
         "ok": {"J", "JV"}
     },
-    "Mangrtsko Sedlo": {
+    "Mangrt": {
         "lon": 46.4334,
         "lat": 13.6407,
         "ok": {"JZ", "J", "JV", "V", "Z"}
@@ -68,7 +69,7 @@ sites = {
         "lat": 13.4732,
         "ok": {"JZ", "J", "JV", "V", "Z"}
     },
-    "Srednji vrh - Matajur": {
+    "Srednji vrh (Matajur)": {
         "lon": 46.209,
         "lat": 13.5663,
         "ok": {"SV", "S"}
@@ -149,10 +150,10 @@ def getList():
         filtered["lat"] = sites[name].get("lat")
         filtered["lon"] = sites[name].get("lon")
         list[name] = filtered
+        # returns sites dict without good wind ("ok")
     print(list.keys())
-    return list  # flask converts dict to json
-
-# returns json of data for given name + coordinats
+    return json.dumps(list)
+# returns data for given name
 
 
 @ app.route("/data")
@@ -162,10 +163,7 @@ def getData():
         return {"error": "pointNotFound", "message": "Jump point requested was not found"}, 404
 
     args = sites.get(name)
-    x = args["lon"]
-    y = args["lat"]
-    goodWind = args["ok"]
-    util = apiUtil.start(name, x, y, goodWind)
+    util = apiUtil.start(name, args["lon"], args["lat"], args["ok"])
     jumpPointData = {
         "windSpeed": util.getWindSpeed(),
         "windGust": util.getWindGust(),
@@ -173,15 +171,15 @@ def getData():
         "temperature": util.getTemperature(),
         "timeAndDate": util.getTimestamp(),
         "isWindGood": util.isWindGood()
+        # TODO: send weather
     }
-    print(jumpPointData)
-    return jumpPointData
+    return json.dumps(jumpPointData)
 
 
 # run() - runs the application on the local development server.
 # app.run(host, port, debug, options)
 # host - Hostname to listen on. Defaults to 127.0.0.1 (localhost).
 # port - defaults to 5000
-# debug = True for developement enviorment
+# debug = True for developement environment
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)

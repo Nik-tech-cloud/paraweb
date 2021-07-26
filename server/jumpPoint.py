@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from pyowm.owm import OWM
 
 
